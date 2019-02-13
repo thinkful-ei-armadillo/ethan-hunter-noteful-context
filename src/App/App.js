@@ -8,6 +8,7 @@ import NotePageMain from '../NotePageMain/NotePageMain'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
 import RouteContext from '../RouteContext';
+import NotePageContext from '../NotePageContext';
 
 import './App.css'
 
@@ -16,6 +17,24 @@ class App extends Component {
     notes: [],
     folders: [],
   };
+
+  deleteNote = (noteId) => {
+
+    fetch(`http://localhost:9090/notes/${noteId}`, { method: 'DELETE' })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error deleting note ${noteId}`);
+        }
+
+        return res.json();
+      })
+      .then(() => {
+        // redirect to previous
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   componentDidMount() {
 
@@ -152,12 +171,12 @@ class App extends Component {
             )
           }}
         /> */}
-        <RouteContext.Provider key="notePageMain" value={{folders, notes}} >
+        <NotePageContext.Provider key="notePageMain" value={{folders, notes, onDeleteClick: this.deleteNote}} >
         <Route
           path='/note/:noteId'
           component={NotePageMain}
               />
-        </RouteContext.Provider>
+        </NotePageContext.Provider>
         <Route
           path='/add-folder'
           component={AddFolder}

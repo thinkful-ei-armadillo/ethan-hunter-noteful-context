@@ -1,11 +1,11 @@
 import React from 'react'
 import Note from '../Note/Note'
 import './NotePageMain.css'
-import RouteContext from '../RouteContext'
+import NotePageContext from '../NotePageContext';
 import { findNote } from '../notes-helpers'
 
 export default class NotePageMain extends React.Component{
-  static contextType = RouteContext;
+  static contextType = NotePageContext;
   render() {
     const note = findNote(this.context.notes, this.props.match.params.noteId)
 
@@ -19,6 +19,7 @@ export default class NotePageMain extends React.Component{
         id={this.props.match.params.noteId}
         name={note.name}
         modified={note.modified}
+        onDeleteClick={this.context.onDeleteClick}
       />
       <div className='NotePageMain__content'>
         {note.content.split(/\n \r|\n/).map((para, i) =>
