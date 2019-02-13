@@ -4,13 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Note from '../Note/Note'
 import CircleButton from '../CircleButton/CircleButton'
 import './NoteListMain.css'
-import RouteContext from '../RouteContext'
+import NotePageContext from '../NotePageContext'
 import { getNotesForFolder } from '../notes-helpers'
 
 export default class NoteListMain extends React.Component {
-  static contextType = RouteContext;
+  static contextType = NotePageContext;
+
+  deleteAndRedirect = (noteID) => {
+    this.context.onDeleteClick(noteID);
+  }
+
   render(){
-        
+
     let folderId
     if (this.props.match.params.folderId) {
       folderId = this.props.match.params.folderId
@@ -27,6 +32,7 @@ export default class NoteListMain extends React.Component {
               id={note.id}
               name={note.name}
               modified={note.modified}
+              onDeleteClick={(id) => { this.deleteAndRedirect(id) }}
             />
           </li>
         )}

@@ -20,7 +20,7 @@ class App extends Component {
 
   deleteNote = (noteId) => {
 
-    fetch(`http://localhost:9090/notes/${noteId}`, { method: 'DELETE' })
+    return fetch(`http://localhost:9090/notes/${noteId}`, { method: 'DELETE' })
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Error deleting note ${noteId}`);
@@ -29,7 +29,18 @@ class App extends Component {
         return res.json();
       })
       .then(() => {
-        // redirect to previous
+        // get notes from api, set state
+        fetch('http://localhost:9090/notes')
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error('Error retrieving notes list');
+            }
+
+            return res.json()
+          })
+          .then((notes) => {
+            this.setState({ notes })
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -149,14 +160,14 @@ class App extends Component {
           //     )
           //   }}
           // />
-          <RouteContext.Provider key={path} value={{folders, notes}} >
+          <NotePageContext.Provider key={path} value={{folders, notes, onDeleteClick: this.deleteNote}} >
           <Route
             exact
             key={path}
             path={path}
             component={NoteListMain}
           />
-          </RouteContext.Provider>
+          </NotePageContext.Provider>
         )}
         {/* <Route
           path='/note/:noteId'
