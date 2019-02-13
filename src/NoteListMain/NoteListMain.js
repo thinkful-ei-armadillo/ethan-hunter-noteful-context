@@ -10,7 +10,7 @@ import { getNotesForFolder } from '../notes-helpers'
 export default class NoteListMain extends React.Component {
   static contextType = NotePageContext;
 
-  deleteAndRedirect = (noteID) => {
+  deleteWithoutRedirect = (noteID) => {
     this.context.onDeleteClick(noteID);
   }
 
@@ -32,7 +32,7 @@ export default class NoteListMain extends React.Component {
               id={note.id}
               name={note.name}
               modified={note.modified}
-              onDeleteClick={(id) => { this.deleteAndRedirect(id) }}
+              onDeleteClick={(id) => { this.deleteWithoutRedirect(id) }}
             />
           </li>
         )}
