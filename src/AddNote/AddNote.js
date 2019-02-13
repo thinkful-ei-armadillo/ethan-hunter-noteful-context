@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import './AddNote.css'
+import RouteContext from '../RouteContext'
 
 export default class AddNote extends Component {
   static defaultProps = {
     folders: [],
   }
+  static contextType = RouteContext
   render() {
-    const { folders } = this.props
+    const { folders } = this.context
     return (
       <section className='AddNote'>
         <h2>Create a note</h2>

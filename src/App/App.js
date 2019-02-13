@@ -8,7 +8,6 @@ import NotePageMain from '../NotePageMain/NotePageMain'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
 import dummyStore from '../dummy-store'
-import { findNote } from '../notes-helpers'
 import RouteContext from '../RouteContext';
 
 import './App.css'
@@ -41,7 +40,7 @@ class App extends Component {
           //     />
           //   }
           // />
-          <RouteContext.Provider value={{folders, notes}} >
+          <RouteContext.Provider key={path} value={{folders, notes}} >
             <Route
               exact
               key={path}
@@ -64,7 +63,7 @@ class App extends Component {
             )
           }}
         /> */}
-        <RouteContext.Provider value={{folders, notes}} >
+        <RouteContext.Provider key="notePageNav" value={{folders, notes}} >
           <Route
             path='/note/:noteId'
             component={NotePageNav}
@@ -102,7 +101,7 @@ class App extends Component {
           //     )
           //   }}
           // />
-          <RouteContext.Provider value={{folders, notes}} >
+          <RouteContext.Provider key={path} value={{folders, notes}} >
           <Route
             exact
             key={path}
@@ -111,7 +110,7 @@ class App extends Component {
           />
           </RouteContext.Provider>
         )}
-        <Route
+        {/* <Route
           path='/note/:noteId'
           render={routeProps => {
             const { noteId } = routeProps.match.params
@@ -123,12 +122,18 @@ class App extends Component {
               />
             )
           }}
-        />
+        /> */}
+        <RouteContext.Provider key="notePageMain" value={{folders, notes}} >
+        <Route
+          path='/note/:noteId'
+          component={NotePageMain}
+              />
+        </RouteContext.Provider>
         <Route
           path='/add-folder'
           component={AddFolder}
         />
-        <Route
+        {/* <Route
           path='/add-note'
           render={routeProps => {
             return (
@@ -138,7 +143,13 @@ class App extends Component {
               />
             )
           }}
+        /> */}
+        <RouteContext.Provider key="addNote" value={{folders}} >
+        <Route
+          path='/add-note'
+          component={AddNote}
         />
+        </RouteContext.Provider>
       </>
     )
   }

@@ -1,22 +1,28 @@
 import React from 'react'
 import Note from '../Note/Note'
 import './NotePageMain.css'
+import RouteContext from '../RouteContext'
+import { findNote } from '../notes-helpers'
 
-export default function NotePageMain(props) {
-  return (
+export default class NotePageMain extends React.Component{
+  static contextType = RouteContext;
+  render() {
+    const note = findNote(this.context.notes, this.props.match.params.noteId)
+    return (
     <section className='NotePageMain'>
       <Note
-        id={props.note.id}
-        name={props.note.name}
-        modified={props.note.modified}
+        id={this.props.match.params.noteId}
+        name={note.name}
+        modified={note.modified}
       />
       <div className='NotePageMain__content'>
-        {props.note.content.split(/\n \r|\n/).map((para, i) =>
+        {note.content.split(/\n \r|\n/).map((para, i) =>
           <p key={i}>{para}</p>
         )}
       </div>
     </section>
   )
+}
 }
 
 NotePageMain.defaultProps = {
