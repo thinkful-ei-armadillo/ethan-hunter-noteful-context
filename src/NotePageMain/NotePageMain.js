@@ -8,6 +8,11 @@ export default class NotePageMain extends React.Component{
   static contextType = RouteContext;
   render() {
     const note = findNote(this.context.notes, this.props.match.params.noteId)
+
+    if (!note) {
+      return <section className='NotePageMain'></section>
+    }
+
     return (
     <section className='NotePageMain'>
       <Note
