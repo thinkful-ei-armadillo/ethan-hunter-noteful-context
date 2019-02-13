@@ -7,7 +7,6 @@ import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
-import dummyStore from '../dummy-store'
 import RouteContext from '../RouteContext';
 
 import './App.css'
@@ -19,8 +18,38 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // fake date loading from API call
-    setTimeout(() => this.setState(dummyStore), 600)
+
+    const data = {};
+
+    const folderPromise = fetch('http://localhost:9090/folders')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Error retrieving folders list');
+        }
+
+        return res.json();
+      });
+
+    const notesPromise = fetch('http://localhost:9090/notes')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Error retrieving notes list');
+        }
+
+        return res.json();
+      });
+
+    Promise
+      .all([folderPromise, notesPromise])
+      .then((apiData) => {
+        data.folders = apiData[0];
+        data.notes   = apiData[1];
+
+        this.setState(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   renderNavRoutes() {
