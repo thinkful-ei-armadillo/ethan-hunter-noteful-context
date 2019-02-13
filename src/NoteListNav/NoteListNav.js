@@ -3,12 +3,12 @@ import { NavLink, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
 import { countNotesForFolder } from '../notes-helpers'
-import NavRouteContext from '../NavRouteContext'
+import RouteContext from '../RouteContext'
 import './NoteListNav.css'
 
 export default class NoteListNav extends React.Component {
 
-  static contextType = NavRouteContext;
+  static contextType = RouteContext;
 
   render() {
 

@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Note from '../Note/Note'
 import CircleButton from '../CircleButton/CircleButton'
 import './NoteListMain.css'
-import NavRouteContext from '../NavRouteContext'
+import RouteContext from '../RouteContext'
 import { getNotesForFolder } from '../notes-helpers'
 
 export default class NoteListMain extends React.Component {
-  static contextType = NavRouteContext;
+  static contextType = RouteContext;
   render(){
         
     let folderId
