@@ -10,7 +10,6 @@ export default class NotePageNav extends React.Component {
   static contextType = NavRouteContext;
 
   render() {
-
     const { folders, notes } = this.context;
 
     const noteId = this.props.match.params.noteId;

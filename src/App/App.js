@@ -8,7 +8,7 @@ import NotePageMain from '../NotePageMain/NotePageMain'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
 import dummyStore from '../dummy-store'
-import { getNotesForFolder, findNote, findFolder } from '../notes-helpers'
+import { findNote } from '../notes-helpers'
 import NavRouteContext from '../NavRouteContext';
 
 import './App.css'
@@ -87,21 +87,29 @@ class App extends Component {
     return (
       <>
         {['/', '/folder/:folderId'].map(path =>
+          // <Route
+          //   exact
+          //   key={path}
+          //   path={path}
+          //   render={routeProps => {
+          //     const { folderId } = routeProps.match.params
+          //     const notesForFolder = getNotesForFolder(notes, folderId)
+          //     return (
+          //       <NoteListMain
+          //         {...routeProps}
+          //         notes={notesForFolder}
+          //       />
+          //     )
+          //   }}
+          // />
+          <NavRouteContext.Provider value={{folders, notes}} >
           <Route
             exact
             key={path}
             path={path}
-            render={routeProps => {
-              const { folderId } = routeProps.match.params
-              const notesForFolder = getNotesForFolder(notes, folderId)
-              return (
-                <NoteListMain
-                  {...routeProps}
-                  notes={notesForFolder}
-                />
-              )
-            }}
+            component={NoteListMain}
           />
+          </NavRouteContext.Provider>
         )}
         <Route
           path='/note/:noteId'
